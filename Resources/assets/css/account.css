@@ -1,0 +1,25 @@
+/* Account Module css file */
+
+/***** Begin: Members.show ***/
+.checkbox-styled .checkmark-label{
+	top:0px; 
+	height: unset;
+}
+.checkbox-styled .checkmark-label{
+	display:block; 
+	padding-right: 30px;
+}
+
+.checkbox-styled-ltr{
+	top:0px; 
+	height: unset;
+}
+
+
+
+.checkbox-styled-ltr .checkmark-label{
+	display:block; 
+	padding-left: 30px;
+}
+
+/***** End: Members.show ***/

@@ -1,0 +1,26 @@
+{
+    "name": "med-ezzairi/module_account",
+    "description": "A module letting you make Account management easy, including users, groups, permissions & roles",
+	"type": "laravel-module",
+    "authors": [
+        {
+            "name": "med-ezzairi",
+            "email": "med.ezzairi@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Account\\Providers\\AccountServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Account\\": ""
+        }
+    }
+}
