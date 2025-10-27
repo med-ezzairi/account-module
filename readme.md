@@ -1,5 +1,9 @@
 # Account Module 
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/med-ezzairi/module_account.svg?style=flat-square)](https://packagist.org/packages/med-ezzairi/module_account)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Total Downloads](https://img.shields.io/packagist/dt/med-ezzairi/module_account.svg?style=flat-square)](https://packagist.org/packages/med-ezzairi/module_account)
+
 This module lets you manage Groups of users, setup groups permissions and per user permissions, the reason behind this module is that you are free to define permissions in your config file as text and assign them to groups or users as you need. The final result is that you could check the user permission based on text (permission) you defined not ids (auto increment) used by other packages/modules.
 
 ## Installation
