@@ -8,9 +8,9 @@ use Nwidart\Modules\Facades\Module;
 class PermissionService {
     
     
-    protected const ACTION_ALLOW    = '1';
-    protected const ACTION_DENY     = '0';
-    protected const ACTION_INHERIT  = '-1';
+    public const ACTION_ALLOW    = '1';
+    public const ACTION_DENY     = '0';
+    public const ACTION_INHERIT  = '-1';
     
     /**
      * Get all possible permissions as array for all modules and/or other permissions config files
@@ -34,6 +34,27 @@ class PermissionService {
         
         
         return $permissions;
+    }
+    
+    /**
+     * Get All Modules permissions as array
+     * 
+     * @return string[]
+     */
+    public static function getAllModulesPermissionsAsArray() 
+    {
+        $allModulesPermissions = static::getAllModulesPermissions();
+        $permissionsAsArray = [];
+        foreach ( $allModulesPermissions as $module => $modulePermissions ){
+            
+            foreach ($modulePermissions as $modulePrefix => $permissions ){
+                
+                foreach ( $permissions as $action => $label ){
+                    $permissionsAsArray[] = $modulePrefix.'.'.$action;
+                }
+            }
+        }
+        return $permissionsAsArray;
     }
     
     /**

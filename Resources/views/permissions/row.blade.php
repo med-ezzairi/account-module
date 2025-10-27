@@ -10,13 +10,14 @@
                 	
                 	<?php 
                 	$permission = "{$group}.{$permissionAction}";
-                	$action = $item->getAction($permission);
+                	
+            	    $action = isset($item) ? $item->getAction($permission) : 'inherit';
                 	?>
                 	
                 	<div class="form-group col-sm-4">
                 		<div class="checkbox-inline checkbox-styled" style="top:0px; height: unset;">
                         	<label>
-                	            <input type="radio" id="{{ "{$group}-{$permissionAction}" }}-allow"
+                	            <input type="radio" id="{{ "{$group}.{$permissionAction}" }}-allow"
                 	            	 name="permissions[{{ $permission }}]" value="1" class="success permission-allow"  {{ $action == 'allow' ? 'checked' : '' }}>
                 	            <span class="checkmark info"></span> 
                     	        <span class="label-text-ltr">{{ $allow }}</span>
@@ -27,7 +28,7 @@
                 	<div class="form-group col-sm-4">
                 		<div class="checkbox-inline checkbox-styled" style="top:0px; height: unset;">
                         	<label>
-                	            <input type="radio" id="{{ "{$group}-{$permissionAction}" }}-deny"
+                	            <input type="radio" id="{{ "{$group}.{$permissionAction}" }}-deny"
                 	            	 name="permissions[{{ $permission }}]" value="0" class="success permission-deny"  {{ $action == 'deny' ? 'checked' : '' }}>
                 	            <span class="checkmark info"></span> 
                     	        <span class="label-text-ltr">{{ $deny }}</span>
@@ -38,7 +39,7 @@
                 	<div class="form-group col-sm-4">
                 		<div class="checkbox-inline checkbox-styled" style="top:0px; height: unset;">
                         	<label>
-                	            <input type="radio" id="{{ "{$group}-{$permissionAction}" }}-inherit"
+                	            <input type="radio" id="{{ "{$group}.{$permissionAction}" }}-inherit"
                 	            	 name="permissions[{{ $permission }}]" value="-1" class="success permission-inherit"  {{ $action == 'inherit' ? 'checked' : '' }}>
                 	            <span class="checkmark info"></span> 
                     	        <span class="label-text-ltr">{{ $inherit }}</span>

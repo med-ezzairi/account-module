@@ -36,17 +36,15 @@ Route::prefix('account')->middleware(['auth', 'role:admin'])->name('account.')->
     
     
     /*
-     | Users
+     | User's Groups and Permissions Affectation
      |--------------------------------------------------------------------------
      |
      */
-    Route::get('/users', 'UserController@index')->name('users.index');
+    Route::get('/affectations', 'AffectationController@index')->name('affectations.index');
+    Route::post('/affectations/search', 'AffectationController@search')->name('affectations.search');
+    Route::post('/affectations/groups', 'AffectationController@groups')->name('affectations.groups');
+    Route::post('/affectations/permissions', 'AffectationController@permissions')->name('affectations.permissions');
     
-    /*
-     | User Permissions
-     |--------------------------------------------------------------------------
-     |
-     */
     
     
 });

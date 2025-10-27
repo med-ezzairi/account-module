@@ -21,13 +21,15 @@ class AuthorizationException extends ParentAuthorizationException
     public function report()
     {
         // Determine if the exception needs custom reporting...
+        $userId = auth()->user()->id ?? 'null';
+        info("Operation denied for user", ['user' => $userId, 'action' => 'tod:add-action-info'] );
         return false;
     }
     
     public function render($request)
     {
         if( $request->ajax() ){
-            return response()->json(['status' => 'error', 'message' => trans('global.operation_denied')]);
+            return response()->json(['status' => 'error', 'message' => trans('account::global.operation_denied')]);
         }
         throw $this;
     }

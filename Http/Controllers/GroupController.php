@@ -13,15 +13,16 @@ class GroupController extends AccountController
 {
     
     const VIEW_PATH     	= 'account::groups.';
-    const TRANS_PREFIX  	= 'account::roles.';
+    const TRANS_PREFIX  	= 'account::account_group.';
     const ROUTE_PREFIX      = 'account.groups.';
     
     protected $sub_menu     = 'groups';
     
+    /*
     protected const ACTION_ALLOW    = '1';
     protected const ACTION_DENY     = '0';
     protected const ACTION_INHERIT  = '-1';
-    
+    */
     
     /**
      * Display a listing of the resource.
@@ -67,7 +68,7 @@ class GroupController extends AccountController
     {
         $group = Group::findById($id);
         if( !$group ){
-            $this->flashError( __(self::TRANS_PREFIX.'no_item_was_found'));
+            $this->flashError( __(self::TRANS_PREFIX.'global.no_item_was_found'));
             return redirect()->route(self::ROUTE_PREFIX.'index');
         }
         
@@ -99,7 +100,7 @@ class GroupController extends AccountController
             
             $group = Group::findById($groupId);
             if( !$group ){
-                return $this->responseError( __(self::TRANS_PREFIX.'no_item_was_found') );
+                return $this->responseError( __(self::TRANS_PREFIX.'global.no_item_was_found') );
             }
             
             $group_permissions = json_decode( $group->permissions, TRUE );
@@ -107,13 +108,19 @@ class GroupController extends AccountController
                 $group_permissions = [];
             }
             
+            $allModulesPermissions = PermissionService::getAllModulesPermissionsAsArray();
+            
             foreach ($request->validated()['permissions'] as $permission => $action ){
                 
-                if( $action == self::ACTION_INHERIT && isset( $group_permissions[$permission] ) ){
+                if( !array_key_exists( $permission, $allModulesPermissions) ){
+                    continue;
+                }
+                
+                if( $action == PermissionService::ACTION_INHERIT && isset( $group_permissions[$permission] ) ){
                     unset( $group_permissions[$permission] );
-                }elseif( $action == self::ACTION_DENY ){
+                }elseif( $action == PermissionService::ACTION_DENY ){
                     $group_permissions[$permission] = false;
-                }elseif ( $action == self::ACTION_ALLOW ){
+                }elseif ( $action == PermissionService::ACTION_ALLOW ){
                     $group_permissions[$permission] = true;
                 }
             }
@@ -140,7 +147,7 @@ class GroupController extends AccountController
             
             $group = Group::findById($id);
             if( !$group ){
-                return $this->responseError( __(self::TRANS_PREFIX.'no_item_was_found') );
+                return $this->responseError( __(self::TRANS_PREFIX.'global.no_item_was_found') );
             }
             $group->load('users');
             if( $group->users->isNotEmpty() ){

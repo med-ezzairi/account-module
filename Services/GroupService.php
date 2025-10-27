@@ -6,6 +6,13 @@ use Modules\Account\Entities\Group;
 
 class GroupService {
     
+    
+    public static function getAll()
+    {
+        return Group::select('*')->get();
+    }
+    
+    
     /**
      * Add a User or list of Users to a Goupr
      * 

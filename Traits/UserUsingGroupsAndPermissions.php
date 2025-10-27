@@ -30,7 +30,11 @@ Trait UserUsingGroupsAndPermissions {
         return $this->hasOne( UserPermission::class, 'user_id', 'id');
     }
     
-    
+    /**
+     * Get all user's permission (via group and own permissions)
+     * 
+     * @return array
+     */
     public function getPermissions() 
     {
         $session_key = 'acl_permissions';

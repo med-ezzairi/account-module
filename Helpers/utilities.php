@@ -11,8 +11,8 @@ if( !function_exists('allowed') ){
      * @param string $ability
      * @return mixed|true|Response
      */
-    function allowed( string $ability )
+    function allowed( string $ability, $arguments = [] )
     {
-        return app(Modules\Account\Contracts\Gate::class)->check($ability);
+        return app(Modules\Account\Contracts\Gate::class)->check($ability, $arguments);
     }
 }
