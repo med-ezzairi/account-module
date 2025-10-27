@@ -4,14 +4,12 @@ namespace Modules\Account\Gates;
 
 use Modules\Account\Contracts\Gate as GateContract;
 use App\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Contracts\Container\Container;
-//use Modules\Account\Exceptions\AuthorizationException; //TODO: fix this to be used
-use Illuminate\Auth\Access\AuthorizationException;
+use Modules\Account\Exceptions\AuthorizationException;
 
 class Gate implements GateContract
 {
-    use HandlesAuthorization;
+    //use HandlesAuthorization;
     
     protected $container;
     protected $userResolver;
@@ -23,25 +21,36 @@ class Gate implements GateContract
     }
     
     
-    public function check($resources, $arguments = [])
+    public function check($permission, $resource = null)
     {
         $user = $this->resolveUser();
-        
-        return collect($resources)->every(function ($resource) use ($user, $arguments) {
-            return $this->raw($user, $resource, $arguments);
-        });
+        return $this->raw($user, $permission, $resource);
     }
     
-    public function authorize($resource, $arguments = [])
+    public function authorize($permission, $resource = null)
     {
-        return $this->raw($this->resolveUser(), $resource, $arguments) ? $this->allow() : $this->deny();
+        return $this->raw($this->resolveUser(), $permission, $resource);
     }
     
-    protected function raw(User $user, $resource, $arguments = [])
+    protected function raw(User $user, $permission, $resource = null)
     {
         $list = $user->getPermissions();
-        $authorized = array_key_exists( $resource, $list ) && $list[$resource] === TRUE; 
-        return $authorized === TRUE ? TRUE : $this->deny();
+        $authorized = array_key_exists( $permission, $list ) && $list[$permission] === TRUE; 
+        
+        
+        // check permission based on attributes 
+        // (should be a ressource/entity/model using the trait Modules\Account\Traits\HasResourcePermission
+        // and has the attribute $resourcePermission defined and set to a valide class)
+        if( $authorized 
+            && $resource 
+            && is_object($resource)
+            && method_exists($resource, 'getResourcePermission') ){
+                $resourcePermission = $resource->getResourcePermission();
+                $authorized = $resourcePermission->isAuthorized( $user, $permission, $resource);
+        }
+        
+        
+        return $authorized === TRUE ? TRUE : $this->deny( trans('account::global.operation_denied') );
     }
     
     protected function resolveUser()

@@ -3,7 +3,7 @@
 namespace Modules\Account\Http\Requests;
 
 
-class GroupRequest extends AbstractRequest
+class UserSearchRequest extends AbstractRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -13,18 +13,20 @@ class GroupRequest extends AbstractRequest
     public function rules()
     {
         return [
-            'name'  => 'required|string|min:5|max:25',
+            'email'  => 'required|email|max:125',
+            //'email'  => 'required|email|min:5|max:125',
         ];
     }
     
     
     public function attributes() 
     {
-        return $this->getTranslatedAttributes('account::account_group');
+        return $this->getTranslatedAttributes('account::account_user');
     }
     
     public function messages() 
     {
-        return $this->getTranslatedMessages('account::account_group');
+        return $this->getTranslatedMessages('account::account_user');
     }
+    
 }

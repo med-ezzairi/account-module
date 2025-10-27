@@ -1,11 +1,16 @@
 <?php 
-$allow_all  	= trans('account::global.permissions.allow_all');
-$deny_all   	= trans('account::global.permissions.deny_all');
-$inherit_all    = trans('account::global.permissions.inherit_all');
+use Modules\Account\Services\PermissionService;
 
-$allow  		= trans('account::global.permissions.allow');
-$deny   		= trans('account::global.permissions.deny');
-$inherit    	= trans('account::global.permissions.inherit');
+$trans_permissions = 'account::global.permissions.';
+$allow_all  	= trans($trans_permissions.'allow_all');
+$deny_all   	= trans($trans_permissions.'deny_all');
+$inherit_all    = trans($trans_permissions.'inherit_all');
+
+$allow  		= trans($trans_permissions.'allow');
+$deny   		= trans($trans_permissions.'deny');
+$inherit    	= trans($trans_permissions.'inherit');
+
+$permissions    = PermissionService::getAllModulesPermissions();
 ?>
 <style>
 .checkbox-styled .label-text-ltr{
@@ -14,31 +19,35 @@ $inherit    	= trans('account::global.permissions.inherit');
 }
 </style>
 <div class="row">
-    <div class="col-sm-12">
+	<div class="col-sm-12">
 	<div class="col-md-5 col-sm-4">
         &nbsp;
     </div>
     <div class="col-md-7 col-sm-8">
+        <div class="row">
         	<div class="btn-group btn-group-justified" role="group">
                 <div class="btn-group permission-parent-actions">
                     <button type="button" class="btn btn-default allow-all">{{ $allow_all }}</button>
                 </div>
-                <div class="btn-group permission-group-actions" role="group">
+                <div class="btn-group permission-parent-actions" role="group">
                     <button type="button" class="btn btn-default deny-all">{{ $deny_all }}</button>
                 </div>
-                <div class="btn-group permission-group-actions" role="group">
+                <div class="btn-group permission-parent-actions" role="group">
                     <button type="button" class="btn btn-default inherit-all">{{ $inherit_all }}</button>
                 </div>
             </div>
+        </div>
     </div>
     </div>
 </div>
 
 <form method="POST" id="frm-item-permissions">
+<input type="hidden" id="class" name="" value="">
+<input type="hidden" class="userEmail" name="userEmail" value="">
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-lg-12 col-md-12">
 	@foreach ($permissions as $module => $modulePermissions)
-        <div class="col-sm-12">
+        <div class="col-md-12">
             <div class="row">
                 <div class="permission-parent-head clearfix">
                     <h3>{{ $module }}</h3>
@@ -60,13 +69,13 @@ $inherit    	= trans('account::global.permissions.inherit');
 
                                 <div class="col-md-7 col-sm-8">
                                 	<div class="btn-group btn-group-justified" role="group">
-                                        <div class="btn-group permission-group-actions">
+                                        <div class="btn-group permission-group-actions" role="group">
                                             <button type="button" class="btn btn-default allow-all">{{ $allow_all }}</button>
                                         </div>
-                                        <div class="btn-group permission-group-actions">
+                                        <div class="btn-group permission-group-actions" role="group">
                                             <button type="button" class="btn btn-default deny-all">{{ $deny_all }}</button>
                                         </div>
-                                        <div class="btn-group permission-group-actions">
+                                        <div class="btn-group permission-group-actions" role="group">
                                             <button type="button" class="btn btn-default inherit-all">{{ $inherit_all }}</button>
                                         </div>
                                     </div>
@@ -86,10 +95,10 @@ $inherit    	= trans('account::global.permissions.inherit');
     @endforeach
         
     <div class="clearfix"></div>
-    <div class="has-alerts"></div>
+    <div class="save-permissions has-alerts"></div>
     <div class="row">
     	<div class="col-sm-6 col-md-4 col-md-offset-8">
-    		<button type="button" id="btn_save" class="btn btn-block btn-warning">@fas(save) {{ __($trans_prefix.'save_permissions') }}</button>
+    		<button type="button" id="btn_save_permissions" class="btn btn-block btn-warning">@fas(save) {{ __($trans_prefix.'save_permissions') }}</button>
     	</div>
     </div>
     
@@ -101,12 +110,19 @@ $inherit    	= trans('account::global.permissions.inherit');
 <script type="text/javascript">
 $(function() {
 
-	$('#btn_save').click( function(evt){
+	$('#btn_save_permissions').click( function(evt){
 		evt.preventDefault();
 		if(ajaxRunning) return;
-		context = '.has-alerts';
+		if( $('#userEmail').val() == ''){
+			return false;
+		}
+		context = '.save-permissions';
 		loadingMessage	= "{{ __($trans_prefix.'action_saving') }}";
-		app.POST("{{ route('account.groups.permissions', $item->id ) }}", 'form#frm-item-permissions', rep => app.reloadOnSuccess(rep));
+		app.POST("{{ route('account.affectations.permissions' ) }}", 'form#frm-item-permissions', function(rep){
+			if( rep.status == 'success' ){
+				app.hideDelayMessage(context);
+			}
+		});
 	});
 
 	$('.permission-parent-actions > .allow-all, .permission-parent-actions > .deny-all, .permission-parent-actions > .inherit-all').on('click', (e) => {

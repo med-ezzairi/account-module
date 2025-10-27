@@ -3,8 +3,8 @@ namespace Modules\Account\Contracts;
 
 interface Gate
 {
-    public function check($resources, $arguments = []);
+    public function check($permission, $resource = null);
     
-    public function authorize($resource, $arguments = []);
+    public function authorize($permission, $resource = null);
 }
 
