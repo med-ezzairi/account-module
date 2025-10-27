@@ -1,6 +1,8 @@
 {
     "name": "med-ezzairi/module_account",
     "description": "A module letting you make Account management easy, including users, groups, permissions & roles",
+	"keywords": ["permission", "group", "account", "role", "laravel"],
+	"license": "MIT",
 	"type": "laravel-module",
     "authors": [
         {
