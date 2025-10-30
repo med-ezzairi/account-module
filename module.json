@@ -3,7 +3,7 @@
     "alias": "account",
     "description": "A Laravel module for groups, permissions and ACL management",
     "keywords": ["account", "users", "groups", "permissions", "ACL", "roles"],
-    "order": 0,
+    "order": 1,
     "providers": [
         "Modules\\Account\\Providers\\AccountServiceProvider"
     ],
