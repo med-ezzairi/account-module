@@ -1,8 +1,8 @@
 # Account Module 
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/med-ezzairi/module-account.svg?style=flat-square)](https://packagist.org/packages/med-ezzairi/module-account)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/med-ezzairi/account-module.svg?style=flat-square)](https://packagist.org/packages/med-ezzairi/account-module)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Total Downloads](https://img.shields.io/packagist/dt/med-ezzairi/module-account.svg?style=flat-square)](https://packagist.org/packages/med-ezzairi/module-account)
+[![Total Downloads](https://img.shields.io/packagist/dt/med-ezzairi/account-module.svg?style=flat-square)](https://packagist.org/packages/med-ezzairi/account-module)
 
 This module lets you manage Groups of users, setup groups permissions and per user permissions, the reason behind this module is that you are free to define permissions in your config file as text and assign them to groups or users as you need. The final result is that you could check the user permission based on text (permission) you defined not ids (auto increment) used by other packages/modules.
 
@@ -11,7 +11,7 @@ This module lets you manage Groups of users, setup groups permissions and per us
 This module requires using the package `nwidart/laravel-modules` see the page [nwidart/laravel-modules](https://github.com/nWidart/laravel-modules).
 
 ```bash
-composer require med-ezzairi/module-account
+composer require med-ezzairi/account-module
 ```
 
 ## Config and Migration
